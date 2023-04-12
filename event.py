@@ -6,6 +6,9 @@ class Event(ABC):
     def stringify(self) -> str:
         pass
 
+    def __str__(self):
+        return self.stringify()
+
 
 class SystemEvent(Event):
     def __init__(self, message: str):
@@ -14,9 +17,6 @@ class SystemEvent(Event):
     def stringify(self) -> str:
         return f'[SystemEvent]\n' \
                f'SYSTEM: {self.message}\n'
-
-    def __str__(self):
-        return self.stringify()
 
 
 class GPTEvent(Event):
