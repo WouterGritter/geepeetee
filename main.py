@@ -14,7 +14,7 @@ if __name__ == '__main__':
         print('Please provide an OpenAI API key.')
         exit(-1)
 
-    print(f'OpenAI API Key: {openai_api_key[:3]}-{openai_api_key[-4:]}')
+    print(f'OpenAI API Key: {openai_api_key[:3]}...{openai_api_key[-4:]}')
     openai.api_key = openai_api_key
 
     print('Hello! I am a GPT agent capable of basic thought, reasoning and planning.')
