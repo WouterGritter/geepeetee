@@ -6,7 +6,8 @@ from event import Event, GPTEvent
 
 
 class Session:
-    def __init__(self):
+    def __init__(self, goals: list[str]):
+        self.goals: list[str] = goals
         self.short_term_events: list[Event] = []
         self.long_term_summary: str = 'No long term summary.'
 
@@ -76,17 +77,26 @@ class Session:
         print('SUMMARY:')
         print(completion)
 
+    def stringify_goals(self) -> str:
+        goals_stringified = 'No goals.\n' if len(self.goals) == 0 else ''
+
+        for goal in self.goals:
+            goals_stringified += f'- {goal}\n'
+
+        return goals_stringified
+
     def stringify_short_term_memory(self) -> str:
         events_stringified = 'No short term events.\n' if len(self.short_term_events) == 0 else ''
 
         for event in self.short_term_events:
-            events_stringified += event.stringify()
-            events_stringified += '\n'
+            events_stringified += f'{event.stringify()}\n'
 
         return events_stringified
 
     def stringify(self) -> str:
         return f'You are an autonomous GPT agent, capable of thought and reasoning. You are executed every timestep with your immediate short-term memory, and summarized long-term memory.\n' \
+               f'Goals:\n' \
+               f'{self.stringify_goals()}' \
                f'\n' \
                f'Summarized long-term memory:\n' \
                f'{self.long_term_summary}\n' \
