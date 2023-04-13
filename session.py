@@ -47,8 +47,6 @@ class Session:
         if len(self.short_term_events) < 10:
             return
 
-        last_event = self.short_term_events[len(self.short_term_events) - 1]
-
         prompt = f'The following is a GPT-system that\'s capable of thought, reasoning and planning. Summarize it\'s short-term memory, and summarize it\'s previous long-term memory even shorter in the total summary.\n' \
                  f'Previous long-term memory summary:\n' \
                  f'{self.long_term_summary}\n' \
@@ -56,7 +54,7 @@ class Session:
                  f'Short-term memory:\n' \
                  f'{self.stringify_short_term_memory()}' \
                  f'\n' \
-                 f'Write a summary of this chain of thought and events, in the perspective of the GPT system (the THOUGHT/REASONING/PLAN/SPEAK sections). Write it in the perspective of the GPT agent (eg. "I remember ...", "I wanted ..."). Make sure to note any specific things you don\'t want to forget.\n'
+                 f'Write a summary of the agent\'s long- and short-term memory, in the perspective of the GPT system (the THOUGHT/REASONING/PLAN/SPEAK sections). Write it in the perspective of the GPT agent (eg. "I remember ...", "I wanted ..."). Make sure to note any specific things you don\'t want to forget.\n'
 
         print('SUMMARIZE-PROMPT:')
         print(prompt)
@@ -72,7 +70,8 @@ class Session:
 
         completion = res.choices[0].text
         self.long_term_summary = completion
-        self.short_term_events = [last_event]
+
+        del self.short_term_events[0:5]
 
         print('SUMMARY:')
         print(completion)
